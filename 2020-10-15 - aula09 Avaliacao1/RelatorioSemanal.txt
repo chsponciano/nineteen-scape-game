@@ -1,11 +1,6 @@
 Relatório semanal
 
 Relatar O QUE FOI FEITO:
--
--
--
-
-Relatar QUEM FOI O RESPONSÁVEL
--
--
--
+- Menu de início do jogo - Vinícius
+- Resolvido o bug do algoritmo de corrida - Carlos Ponciano
+- Atualizados os personagens utilizados - Giulio
