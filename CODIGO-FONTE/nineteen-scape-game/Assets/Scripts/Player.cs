@@ -19,8 +19,7 @@ public class Player : MonoBehaviour
 
     private CharacterController controller;
     private float jumpVelocity;
-    private bool isMovingLeft;
-    private bool isMovingRight;
+    private bool isMoving;
     private GameController gameController;
 
     void Start()
@@ -40,15 +39,15 @@ public class Player : MonoBehaviour
                 jumpVelocity = jumpHeight;
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x < playerLimit && !isMovingRight)
+            if (Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x < playerLimit && !isMoving)
             {
-                isMovingRight = true;
+                isMoving = true;
                 StartCoroutine(RightMove());
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > -playerLimit && !isMovingLeft)
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > -playerLimit && !isMoving)
             {
-                isMovingLeft = true;
+                isMoving = true;
                 StartCoroutine(LeftMove());
             }
         }
@@ -75,7 +74,7 @@ public class Player : MonoBehaviour
             }
         }        
         normalize();
-        isMovingLeft = false;        
+        isMoving = false;        
     }
 
     IEnumerator RightMove()
@@ -91,7 +90,7 @@ public class Player : MonoBehaviour
             }
         }     
         normalize();
-        isMovingRight = false;
+        isMoving = false;
     }
 
     private void normalize()
