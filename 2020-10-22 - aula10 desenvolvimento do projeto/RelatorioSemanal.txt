@@ -1,11 +1,17 @@
 Relatório semanal
 
 Relatar O QUE FOI FEITO:
--
--
--
+Carlos
+- ajuste do algoritmo de troca de faixa
+- criado metodo para normalizar a movimentação 
+- criado metodo para inserir objetos randômicos em tela
+- ajustado à colisão 
+- iniciado desenvolvimento da cloroquina e das máscaras
 
-Relatar QUEM FOI O RESPONSÁVEL
--
--
--
+Giulio
+- pareamento de objetivos e revisão do trello
+- troca de conhecimento dos componentes criados com o auxílio do Vinicius
+- em prossguimento com a fundamentação para integrar o cardboard
+
+Vinicius
+- em prosseguimento com a implementação da máscara
