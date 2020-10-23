@@ -129,9 +129,13 @@ public class Player : MonoBehaviour
         }
     }
 
+    // void OnTriggerEnter(Collider other) {
+    //     Debug.Log("Player hit");
+    //     Physics.IgnoreCollision(other.GetComponent<Collider>(), controller, true);
+    // }
+
     void AnimeGameOver()
     {
         gameController.CallGameOver();
-        // SceneManager.LoadScene(0);
     }
 }
