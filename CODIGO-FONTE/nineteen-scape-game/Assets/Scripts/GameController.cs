@@ -44,7 +44,8 @@ public class GameController : MonoBehaviour
     {
         if(t > (50f - (player.speed / 100)))
         {
-            Instantiate(adversaries[0], getRandomVector3(Random.Range(1, 4)), transform.rotation);
+            GameObject o = adversaries[Random.Range(0, adversaries.Count)];
+            Instantiate(o, getRandomVector3(Random.Range(1, 4), o.transform.position.y), o.transform.rotation);
             t = 0f;
         }
         else
@@ -53,7 +54,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private Vector3 getRandomVector3(int position)
+    private Vector3 getRandomVector3(int position, float y)
     {
         float x = -5;
         float z = player.transform.position.z + 120f;
@@ -67,6 +68,6 @@ public class GameController : MonoBehaviour
             x = 5;
         }
 
-        return new Vector3(x, 6, z);
+        return new Vector3(x, y, z);
     }
 }
