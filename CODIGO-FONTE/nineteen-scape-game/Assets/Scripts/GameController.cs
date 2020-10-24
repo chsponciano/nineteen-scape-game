@@ -9,13 +9,13 @@ public class GameController : MonoBehaviour
     public float speedIncreaseRate;
     public float horizontalSpeedIncreaseRate;
 
-    public List<GameObject> adversaries = new List<GameObject>();
+    public List<GameObject> randomObjects = new List<GameObject>();
     public GameObject gameOver;
     public Text scoreText;
     public Text gameOverScoreText;
 
     private Player player;
-    private float t;
+    private float time;
 
     void Start()
     {
@@ -30,7 +30,7 @@ public class GameController : MonoBehaviour
             scoreText.text = Mathf.Round(score).ToString() + "m";
             player.speed += speedIncreaseRate;
             player.horizontalSpeed += horizontalSpeedIncreaseRate;
-            randomOpponents();
+            createRandomObjectInScene();
         }
     }
 
@@ -40,17 +40,17 @@ public class GameController : MonoBehaviour
         gameOver.SetActive(true);
     }
 
-    private void randomOpponents()
+    private void createRandomObjectInScene()
     {
-        if(t > (50f - (player.speed / 100)))
+        if(time > (50f - (player.speed / 100)))
         {
-            GameObject o = adversaries[Random.Range(0, adversaries.Count)];
-            Instantiate(o, getRandomVector3(Random.Range(1, 4), o.transform.position.y), o.transform.rotation);
-            t = 0f;
+            GameObject newObject = randomObjects[Random.Range(0, randomObjects.Count)];
+            Instantiate(newObject, getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);
+            time = 0f;
         }
         else
         {
-            t += 1f;
+            time += 1f;
         }
     }
 
