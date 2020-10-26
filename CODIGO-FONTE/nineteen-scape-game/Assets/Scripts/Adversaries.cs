@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class Adversaries : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Animator anime;
+    private GameController gameController;
+
     void Start()
     {
         transform.Rotate(0f, 180f, 0f);
-        // transform.localScale = new Vector3(0.8f, 0.7f, 1);
+        transform.position += new Vector3(0f, 0.3f, 0f);
+        gameController = FindObjectOfType<GameController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (!gameController.playerDie) 
+        {
+            transform.position += new Vector3(0f, 0f, -0.2f);
+        }
+    }
+
+    public void die()
+    {
+        anime.SetTrigger("Death_b");
     }
 }

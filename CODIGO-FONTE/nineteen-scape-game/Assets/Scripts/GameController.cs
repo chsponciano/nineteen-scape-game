@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
     public GameObject gameOver;
     public Text scoreText;
     public Text gameOverScoreText;
+    public bool playerDie = false;
 
     private Player player;
     private float time;
@@ -24,7 +25,7 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        if(!player.isDead)
+        if(!playerDie)
         {
             score += Time.deltaTime * 5f;
             scoreText.text = Mathf.Round(score).ToString() + "m";

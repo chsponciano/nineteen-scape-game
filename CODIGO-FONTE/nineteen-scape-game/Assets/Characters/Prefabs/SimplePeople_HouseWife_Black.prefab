@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fe16182f55f98849bb5a40add7296df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anime: {fileID: 9500000}
 --- !u!114 &3290915890496352414
 MonoBehaviour:
   m_ObjectHideFlags: 0

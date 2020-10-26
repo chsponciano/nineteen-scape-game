@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public const float playerLimit = 3f;
-    public const float playerFrameMovement = 0.1f;
-
     public float speed;
     public float horizontalSpeed;
     public float jumpHeight;
@@ -15,7 +13,6 @@ public class Player : MonoBehaviour
     public float rayRadius;
     public LayerMask layer;
     public Animator anime;
-    public bool isDead = false;
 
     private CharacterController controller;
     private float jumpVelocity;
@@ -118,21 +115,29 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayRadius, layer) && !isDead)
+        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayRadius, layer) && !gameController.playerDie)
         {
-            anime.SetTrigger("die");
-            speed = 0;
-            jumpHeight = 0;
-            horizontalSpeed = 0;
-            Invoke("AnimeGameOver", 3f);
-            isDead = true;
+            AdversarieAnimeDie(hit.collider.gameObject);
+            AnimeDie();
+            gameController.playerDie = true;
         }
     }
 
-    // void OnTriggerEnter(Collider other) {
-    //     Debug.Log("Player hit");
-    //     Physics.IgnoreCollision(other.GetComponent<Collider>(), controller, true);
-    // }
+    void AnimeDie() 
+    {
+        anime.SetTrigger("Death_player_b");
+        anime.SetTrigger("Death_b");
+        speed = 0;
+        jumpHeight = 0;
+        horizontalSpeed = 0;
+        Invoke("AnimeGameOver", 3f);
+    }
+    
+    void AdversarieAnimeDie(GameObject gameObject) 
+    {
+        Adversaries adversarie = gameObject.GetComponent<Adversaries>();
+        adversarie.die();
+    }
 
     void AnimeGameOver()
     {
