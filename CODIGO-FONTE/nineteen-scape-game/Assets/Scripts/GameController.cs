@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameController : MonoBehaviour
     public float horizontalSpeedIncreaseRate;
 
     public List<GameObject> randomObjects = new List<GameObject>();
+    public List<int> randomObjectsProbabilities = new List<int>();
     public GameObject gameOver;
     public Text scoreText;
     public Text gameOverScoreText;
@@ -21,6 +23,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        validateRandomObjectsProbabilities();
     }
 
     void Update()
@@ -45,7 +48,7 @@ public class GameController : MonoBehaviour
     {
         if(time > (50f - (player.speed / 100)))
         {
-            GameObject newObject = randomObjects[Random.Range(0, randomObjects.Count)];
+            GameObject newObject = getRandomObject();
             Instantiate(newObject, getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);
             time = 0f;
         }
@@ -70,5 +73,35 @@ public class GameController : MonoBehaviour
         }
 
         return new Vector3(x, y, z);
+    }
+
+    private GameObject getRandomObject()
+    {
+        int random = Random.Range(0, 100);
+        int accumulator = 0;
+        for (int i = 0; i < this.randomObjects.Count; i++)
+        {
+            int probability = this.randomObjectsProbabilities[i];
+            GameObject gameObject = this.randomObjects[i];
+            
+            accumulator += probability;
+            if (random < accumulator)
+            {
+                return gameObject;
+            }
+        }
+        throw new System.ArgumentException("Cannot pick random object");
+    }
+
+    private void validateRandomObjectsProbabilities()
+    {
+        if (this.randomObjectsProbabilities.Count != this.randomObjects.Count) 
+        {
+            throw new System.ArgumentException("Random Objects Probabilities should have the same number of elements as Random Object");
+        }
+        if (this.randomObjectsProbabilities.Sum() != 100)
+        {
+            throw new System.ArgumentException("Random Objects Probabilities should have sum equal to 100");
+        }
     }
 }
