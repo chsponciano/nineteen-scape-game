@@ -659,10 +659,10 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  cloudProjectId: a2cae225-dab7-4a8d-8a2b-da2b464e4340
+  cloudProjectId: 
   framebufferDepthMemorylessMode: 0
-  projectName: nineteen-scape-game
-  organizationId: unity_0xfri0tt7al3qw
+  projectName: 
+  organizationId: 
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

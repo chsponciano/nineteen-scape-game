@@ -24,6 +24,17 @@ public class Adversaries : MonoBehaviour
 
     public void die()
     {
+        StartCoroutine(DieRotate());
         anime.SetTrigger("Death_b");
+    }
+    
+    IEnumerator DieRotate()
+    {
+        for (int i = 0; i < 45; i++)
+        {
+          transform.position += new Vector3(-0.025f, 0f, 0f);
+          transform.Rotate(0f, -1f, 0f);   
+          yield return null;  
+        }
     }
 }

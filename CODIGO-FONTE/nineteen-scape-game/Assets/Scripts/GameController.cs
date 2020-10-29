@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour
 
     private void createRandomObjectInScene()
     {
-        if(time > (50f - (player.speed / 100)))
+        if(time > 10)
         {
             GameObject newObject = getRandomObject();
             Instantiate(newObject, getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);
@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            time += 1f;
+            time += Time.deltaTime * 3f + (player.speed / 100);
         }
     }
 
