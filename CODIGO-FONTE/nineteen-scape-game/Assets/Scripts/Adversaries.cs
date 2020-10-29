@@ -6,6 +6,7 @@ public class Adversaries : MonoBehaviour
 {
     public Animator anime;
     private GameController gameController;
+    private bool isStopped = false;
 
     void Start()
     {
@@ -19,6 +20,11 @@ public class Adversaries : MonoBehaviour
         if (!gameController.playerDie) 
         {
             transform.position += new Vector3(0f, 0f, -0.2f);
+        } 
+        else if (!isStopped)
+        {
+            anime.SetTrigger("Stop_b");
+            isStopped = true;
         }
     }
 

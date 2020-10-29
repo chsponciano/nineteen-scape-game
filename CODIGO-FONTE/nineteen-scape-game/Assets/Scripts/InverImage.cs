@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
 
-public class Mask : MonoBehaviour
+public class InverImage : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
