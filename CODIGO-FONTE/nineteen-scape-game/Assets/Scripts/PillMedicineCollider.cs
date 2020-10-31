@@ -6,20 +6,16 @@ using UnityEngine.UI;
 public class PillMedicineCollider : MonoBehaviour
 {
     private Text pillText;
+    private BuffController buffController;
 
     void Start()
     {
-        pillText = GameObject.FindGameObjectWithTag("PillText").GetComponent<Text>();
+        this.pillText = GameObject.FindGameObjectWithTag("PillText").GetComponent<Text>();
+        this.buffController = FindObjectOfType<BuffController>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
-        incrementPill();         
-    }
-
-    private void incrementPill() {
-        int value = int.Parse(pillText.text.ToString()) + 1;
-        pillText.text = value.ToString();
+       this.buffController.Increment(pillText, BuffController.E_BUFF.Pill, gameObject);
     }
 }

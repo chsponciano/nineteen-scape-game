@@ -16,9 +16,25 @@ public class GameController : MonoBehaviour
     public Text scoreText;
     public Text gameOverScoreText;
     public bool playerDie = false;
+    public bool isStopped = false;
 
     private Player player;
     private float time;
+
+    private static GameController _instance;
+    public static GameController Instance { get { return _instance; } }
+
+    private void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        } 
+        else 
+        {
+            _instance = this;
+        }
+    }
 
     void Start()
     {
@@ -35,6 +51,10 @@ public class GameController : MonoBehaviour
             player.speed += speedIncreaseRate;
             player.horizontalSpeed += horizontalSpeedIncreaseRate;
             createRandomObjectInScene();
+        } 
+        else 
+        {
+            isStopped = true;
         }
     }
 

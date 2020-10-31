@@ -6,20 +6,16 @@ using UnityEngine.UI;
 public class MaskCollider : MonoBehaviour
 {
     private Text maskText;
+    private BuffController buffController;
 
     void Start()
     {
-        maskText = GameObject.FindGameObjectWithTag("MaskText").GetComponent<Text>();
+        this.maskText = GameObject.FindGameObjectWithTag("MaskText").GetComponent<Text>();
+        this.buffController = FindObjectOfType<BuffController>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);
-        incrementMask();         
-    }
-
-    private void incrementMask() {
-        int value = int.Parse(maskText.text.ToString()) + 1;
-        maskText.text = value.ToString();
+        this.buffController.Increment(maskText, BuffController.E_BUFF.Mask, gameObject);     
     }
 }

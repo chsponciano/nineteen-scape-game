@@ -6,7 +6,6 @@ public class Adversaries : MonoBehaviour
 {
     public Animator anime;
     private GameController gameController;
-    private bool isStopped = false;
 
     void Start()
     {
@@ -21,10 +20,9 @@ public class Adversaries : MonoBehaviour
         {
             transform.position += new Vector3(0f, 0f, -0.2f);
         } 
-        else if (!isStopped)
+        else if (!gameController.isStopped)
         {
             anime.SetTrigger("Stop_b");
-            isStopped = true;
         }
     }
 
