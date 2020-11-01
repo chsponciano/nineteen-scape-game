@@ -16,38 +16,38 @@ public class SpawnPlatform : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        this.player = GameObject.FindGameObjectWithTag("Player").transform;
 
-        for(int i = 0; i < platforms.Count; i++)
+        for(int i = 0; i < this.platforms.Count; i++)
         {
-            Transform platform = Instantiate(platforms[i], new Vector3(0, 0, i * platformSize), transform.rotation).transform;
-            currentPlatforms.Add(platform);
-            offset += 86;
+            Transform platform = Instantiate(this.platforms[i], new Vector3(0, 0, i * platformSize), this.transform.rotation).transform;
+            this.currentPlatforms.Add(platform);
+            this.offset += 86;
         }
 
-        currentPlatformPoint = currentPlatforms[platformIndex].GetComponent<Platform>().point;
+        this.currentPlatformPoint = this.currentPlatforms[this.platformIndex].GetComponent<Platform>().point;
     }
 
     void Update()
     {
-        float distance = player.position.z - currentPlatformPoint.position.z;
+        float distance = this.player.position.z - this.currentPlatformPoint.position.z;
         if (distance >= 5)
         {
-            Recycle(currentPlatforms[platformIndex].gameObject);
-            platformIndex++;
+            this.Recycle(this.currentPlatforms[this.platformIndex].gameObject);
+            this.platformIndex++;
 
-            if(platformIndex > currentPlatforms.Count -1) 
+            if(this.platformIndex > this.currentPlatforms.Count -1) 
             {
-                platformIndex = 0;
+                this.platformIndex = 0;
             }
 
-            currentPlatformPoint = currentPlatforms[platformIndex].GetComponent<Platform>().point;
+            this.currentPlatformPoint = this.currentPlatforms[this.platformIndex].GetComponent<Platform>().point;
         }
     }
 
     public void Recycle(GameObject platform)
     {
-        platform.transform.position = new Vector3(0, 0, offset);
-        offset += platformSize;
+        platform.transform.position = new Vector3(0, 0, this.offset);
+        this.offset += platformSize;
     }
 }

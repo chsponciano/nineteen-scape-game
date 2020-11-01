@@ -8,15 +8,15 @@ public class RandomObjects : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        this.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Update()
     {
-        float distance = player.transform.position.z - transform.position.z;
+        float distance = this.player.transform.position.z - this.transform.position.z;
         if (distance >= 100f) 
         {
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         } 
     }
 }

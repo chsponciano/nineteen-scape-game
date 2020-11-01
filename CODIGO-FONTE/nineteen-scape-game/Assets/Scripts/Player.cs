@@ -18,81 +18,95 @@ public class Player : MonoBehaviour
     private float jumpVelocity;
     private bool isMoving;
     private GameController gameController;
+    private BuffController buffController;
+
+    private float currentSpeed;
+    private float currentJumpHeight;
+    private float currentHorizontalSpeed;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        gameController = FindObjectOfType<GameController>();
+        this.controller = GetComponent<CharacterController>();
+        this.gameController = FindObjectOfType<GameController>();
+        this.buffController = FindObjectOfType<BuffController>();
     }
 
     void Update()
     {
-        Vector3 direction = Vector3.forward * speed;   
-        
-        if(controller.isGrounded) 
+        if (!this.gameController.isStopped) 
         {
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+            this.anime.ResetTrigger("Stop_b");
+            Vector3 direction = Vector3.forward * speed;   
+            
+            if(this.controller.isGrounded) 
             {
-                jumpVelocity = jumpHeight;
+                if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    this.jumpVelocity = this.jumpHeight;
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightArrow) && this.transform.position.x < playerLimit && !this.isMoving)
+                {
+                    this.isMoving = true;
+                    StartCoroutine(RightMove());
+                }
+
+                if (Input.GetKeyDown(KeyCode.LeftArrow) && this.transform.position.x > -playerLimit && !this.isMoving)
+                {
+                    this.isMoving = true;
+                    StartCoroutine(LeftMove());
+                }
+            }
+            else
+            {
+                this.jumpVelocity -= this.gravity;
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow) && transform.position.x < playerLimit && !isMoving)
-            {
-                isMoving = true;
-                StartCoroutine(RightMove());
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow) && transform.position.x > -playerLimit && !isMoving)
-            {
-                isMoving = true;
-                StartCoroutine(LeftMove());
-            }
-        }
+            this.OnCollision();
+            direction.y = this.jumpVelocity;
+            this.controller.Move(direction * Time.deltaTime);
+        } 
         else
         {
-            jumpVelocity -= gravity;
+            this.anime.SetTrigger("Stop_b");
         }
-
-        OnCollision();
-        direction.y = jumpVelocity;
-        controller.Move(direction * Time.deltaTime);
     }
 
     IEnumerator LeftMove()
     {
-        float x = transform.position.x;
+        float x = this.transform.position.x;
 
         if (x > -5) 
         {
-            while (transform.position.x >= x - 5f) 
+            while (this.transform.position.x >= x - 5f) 
             {
-                controller.Move(Vector3.left * Time.deltaTime * horizontalSpeed);
+                this.controller.Move(Vector3.left * Time.deltaTime * this.horizontalSpeed);
                 yield return null;
             }
         }        
-        normalize();
-        isMoving = false;        
+        this.normalize();
+        this.isMoving = false;        
     }
 
     IEnumerator RightMove()
     {
-        float x = transform.position.x;
+        float x = this.transform.position.x;
 
         if (x < 5) 
         {
-            while (transform.position.x <= x + 5f) 
+            while (this.transform.position.x <= x + 5f) 
             {
-                controller.Move(Vector3.right * Time.deltaTime * horizontalSpeed);
+                this.controller.Move(Vector3.right * Time.deltaTime * this.horizontalSpeed);
                 yield return null;
             }
         }     
-        normalize();
-        isMoving = false;
+        this.normalize();
+        this.isMoving = false;
     }
 
     private void normalize()
     {
-        float x = transform.position.x;
+        float x = this.transform.position.x;
         float currentX;
 
         if (x < -3f) 
@@ -108,39 +122,64 @@ public class Player : MonoBehaviour
             currentX = 0f;
         }
 
-        transform.position = new Vector3(currentX, transform.position.y, transform.position.z);
+        this.transform.position = new Vector3(currentX, this.transform.position.y, this.transform.position.z);
     }
 
     void OnCollision()
     {
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayRadius, layer) && !gameController.playerDie)
+        if(Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, this.rayRadius, this.layer) && !this.gameController.playerDie)
         {
-            AdversarieAnimeDie(hit.collider.gameObject);
-            AnimeDie();
-            gameController.playerDie = true;
+            hit.collider.gameObject.GetComponent<Adversaries>().Die();
+            this.ValidatePlayerBuff();
         }
     }
 
-    void AnimeDie() 
+    private void ValidatePlayerBuff()
     {
-        anime.SetTrigger("Death_player_b");
-        anime.SetTrigger("Death_b");
-        speed = 0;
-        jumpHeight = 0;
-        horizontalSpeed = 0;
-        Invoke("AnimeGameOver", 3f);
-    }
-    
-    void AdversarieAnimeDie(GameObject gameObject) 
-    {
-        Adversaries adversarie = gameObject.GetComponent<Adversaries>();
-        adversarie.die();
+        int action = this.buffController.Action();
+        if (action != 0) 
+        {
+            this.StopRunning();
+            if (action == -1) 
+            {
+                this.Die();
+            }
+        }
+        
     }
 
-    void AnimeGameOver()
+    public void Die()
     {
-        gameController.CallGameOver();
+        this.gameController.playerDie = true;
+        this.anime.SetTrigger("Death_player_b");
+        this.anime.SetTrigger("Death_b");
+        Invoke("GameOverAlert", 3f);
+    }
+
+    public void Revive()
+    {
+        this.gameController.playerDie = false;
+        this.gameController.isStopped = false;
+        this.speed = this.currentSpeed;
+        this.horizontalSpeed = this.currentHorizontalSpeed;
+        this.jumpHeight = this.currentJumpHeight;
+    }
+
+    private void GameOverAlert()
+    {
+        this.gameController.CallGameOver();
+    }
+
+    private void StopRunning() 
+    {
+        this.gameController.isStopped = true;
+        this.currentSpeed = this.speed;
+        this.currentHorizontalSpeed = this.horizontalSpeed;
+        this.currentJumpHeight = this.jumpHeight;
+        this.speed = 0;
+        this.jumpHeight = 0;
+        this.horizontalSpeed = 0;
     }
 }

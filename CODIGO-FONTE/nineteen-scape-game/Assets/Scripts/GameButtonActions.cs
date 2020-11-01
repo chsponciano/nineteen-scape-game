@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GameButtonActions : MonoBehaviour
 {
+    public BuffController BuffController;
+
     private static GameButtonActions _instance;
     public static GameButtonActions Instance { get { return _instance; } }
     
@@ -21,11 +23,6 @@ public class GameButtonActions : MonoBehaviour
         }
     }
 
-    void Start()
-    {
-        
-    }
-
     public void returnToMenu()
     {
         SceneManager.LoadScene(0);
@@ -33,11 +30,11 @@ public class GameButtonActions : MonoBehaviour
 
     public void acceptChloroquine()
     {
-        Debug.Log("accept chloroquine");
+        this.BuffController.CurrentPillAction = 1;
     }
 
     public void refuseChloroquine()
     {
-        Debug.Log("refuse chloroquine");
+        this.BuffController.CurrentPillAction = 2;
     }
 }

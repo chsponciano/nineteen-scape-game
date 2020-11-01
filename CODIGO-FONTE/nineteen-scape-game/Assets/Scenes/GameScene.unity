@@ -1998,6 +1998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18bb4d1927635374c9930ca344896927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BuffController: {fileID: 1923483477}
 --- !u!1 &1191459261
 GameObject:
   m_ObjectHideFlags: 0
@@ -3050,6 +3051,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7061a548d2e9a6469e6bc1f4700c1c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PillUI: {fileID: 107349391}
+  PillAlert: {fileID: 93784324}
+  MaskUI: {fileID: 1721498932}
+  Player: {fileID: 245410433}
+  CurrentPillAction: 0
 --- !u!4 &1923483478
 Transform:
   m_ObjectHideFlags: 0

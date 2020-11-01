@@ -9,35 +9,45 @@ public class Adversaries : MonoBehaviour
 
     void Start()
     {
-        transform.Rotate(0f, 180f, 0f);
-        transform.position += new Vector3(0f, 0.3f, 0f);
-        gameController = FindObjectOfType<GameController>();
+        this.transform.Rotate(0f, 180f, 0f);
+        this.transform.position += new Vector3(0f, 0.3f, 0f);
+        this.gameController = FindObjectOfType<GameController>();
     }
 
     void Update()
     {
-        if (!gameController.playerDie) 
+        if (!this.gameController.playerDie && !this.gameController.isStopped) 
         {
-            transform.position += new Vector3(0f, 0f, -0.2f);
+            this.anime.ResetTrigger("Stop_b");
+            this.transform.position += new Vector3(0f, 0f, -0.2f);
         } 
-        else if (!gameController.isStopped)
+        else
         {
-            anime.SetTrigger("Stop_b");
+            this.anime.SetTrigger("Stop_b");
         }
     }
 
-    public void die()
+    public void Die()
     {
         StartCoroutine(DieRotate());
-        anime.SetTrigger("Death_b");
+        this.anime.SetTrigger("Death_b");
+        this.disableCollider();
+    }
+
+    private void disableCollider()
+    {
+        Collider[] colliders = this.GetComponentsInChildren<Collider>();
+        foreach (Collider collider in colliders) {
+            DestroyImmediate(collider);
+        }
     }
     
     IEnumerator DieRotate()
     {
         for (int i = 0; i < 45; i++)
         {
-          transform.position += new Vector3(-0.025f, 0f, 0f);
-          transform.Rotate(0f, -1f, 0f);   
+          this.transform.position += new Vector3(-0.025f, 0f, 0f);
+          this.transform.Rotate(0f, -1f, 0f);   
           yield return null;  
         }
     }

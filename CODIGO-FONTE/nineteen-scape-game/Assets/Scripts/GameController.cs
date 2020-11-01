@@ -38,50 +38,46 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        validateRandomObjectsProbabilities();
+        this.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        this.validateRandomObjectsProbabilities();
     }
 
     void Update()
     {
-        if(!playerDie)
+        if(!this.playerDie && !this.isStopped)
         {
-            score += Time.deltaTime * 5f;
-            scoreText.text = Mathf.Round(score).ToString() + "m";
-            player.speed += speedIncreaseRate;
-            player.horizontalSpeed += horizontalSpeedIncreaseRate;
-            createRandomObjectInScene();
-        } 
-        else 
-        {
-            isStopped = true;
+            this.score += Time.deltaTime * 5f;
+            this.scoreText.text = Mathf.Round(this.score).ToString() + "m";
+            this.player.speed += this.speedIncreaseRate;
+            this.player.horizontalSpeed += this.horizontalSpeedIncreaseRate;
+            this.createRandomObjectInScene();
         }
     }
 
     public void CallGameOver()
     {
-        gameOverScoreText.text = string.Format("Atingido {0}m", Mathf.Round(score));
-        gameOver.SetActive(true);
+        this.gameOverScoreText.text = string.Format("Atingido {0}m", Mathf.Round(this.score));
+        this.gameOver.SetActive(true);
     }
 
     private void createRandomObjectInScene()
     {
-        if(time > 10)
+        if(this.time > 10)
         {
-            GameObject newObject = getRandomObject();
-            Instantiate(newObject, getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);
-            time = 0f;
+            GameObject newObject = this.getRandomObject();
+            Instantiate(newObject, this.getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);
+            this.time = 0f;
         }
         else
         {
-            time += Time.deltaTime * 3f + (player.speed / 100);
+            this.time += Time.deltaTime * 3f + (this.player.speed / 100);
         }
     }
 
     private Vector3 getRandomVector3(int position, float y)
     {
         float x = -5;
-        float z = player.transform.position.z + 120f;
+        float z = this.player.transform.position.z + 120f;
 
         if (position == 2) 
         {

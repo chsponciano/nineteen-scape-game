@@ -8,20 +8,46 @@ public class BuffController : MonoBehaviour
 {
     class Buff
     {
-        private int value = 1;
+        private Text ui;
+        private int value = 0;
 
-        public int Increment() 
-        {
-            return this.value++;
+        public Buff(Text ui) {
+            this.ui = ui;
         }
 
-        public int Decrement() 
+        public int getValue()
         {
-            return this.value--;
+            return this.value;
+        }
+
+        public void Increment() 
+        {
+            this.value++;
+            this.PrintValue();
+        }
+
+        public void Decrement() 
+        {
+            this.value--;
+            this.PrintValue();
+        }
+
+        private void PrintValue()
+        {
+            this.ui.text = this.value.ToString();
         }
     }
     
-    public enum E_BUFF {Pill, Mask};
+    /* game objects to control ui texts */
+    public Text PillUI;
+    public GameObject PillAlert;
+    public Text MaskUI;
+    public Player Player;
+
+    /* variable of interaction with the buttons */
+    public int CurrentPillAction = 0;
+
+    public enum E_BUFF {Mask, Pill};
     private Dictionary<string, Buff> buffDictionary = new Dictionary<string, Buff>();
 
     private static BuffController _instance;
@@ -44,27 +70,89 @@ public class BuffController : MonoBehaviour
         this.StartValuesBuffs();
     }
 
-    public void Increment(Text ui, E_BUFF type, GameObject buffObject)
+    public void Increment(E_BUFF type, GameObject buffObject)
     {        
-        this.PrintValue(ui, this.buffDictionary[type.ToString()].Increment());
+        this.buffDictionary[type.ToString()].Increment();
         Destroy(buffObject);
     }
 
-    public void Decrement(Text ui, E_BUFF type)
+    public void Decrement(E_BUFF type)
     {
-        this.PrintValue(ui, this.buffDictionary[type.ToString()].Decrement());
+        this.buffDictionary[type.ToString()].Decrement();
     }
 
-    private void PrintValue(Text ui, int value)
+    public int Action() 
     {
-        ui.text = value.ToString();
+        foreach(E_BUFF buff in Enum.GetValues(typeof(E_BUFF)))
+        {
+            if (this.buffDictionary[buff.ToString()].getValue() > 0) 
+            {
+                return this.Action(buff);
+            }
+        }
+
+        return -1;
+    } 
+
+    private int Action(E_BUFF type)
+    {
+        Debug.Log(type.ToString() + " Action");
+
+        switch (type)
+        {
+            case E_BUFF.Mask:
+                this.Decrement(type);
+                return 0;
+
+            case E_BUFF.Pill:
+                this.PillAlert.SetActive(true);
+                StartCoroutine(WaitForPillAction());
+                return 1;
+
+            default:
+                throw new System.ArgumentException("Invalid buff");
+        }
     }
 
     private void StartValuesBuffs()
     {
-        foreach(E_BUFF buff in Enum.GetValues(typeof(E_BUFF)))
+        this.buffDictionary.Add(E_BUFF.Pill.ToString(), new Buff(PillUI));
+        this.buffDictionary.Add(E_BUFF.Mask.ToString(), new Buff(MaskUI));
+
+        if (this.buffDictionary.Count != Enum.GetValues(typeof(E_BUFF)).Length) {
+            throw new System.ArgumentException("Number of buffs specified different from the number of instantiated");
+        }
+    }
+
+    IEnumerator WaitForPillAction()
+    {
+        while(this.CurrentPillAction == 0)
         {
-            this.buffDictionary.Add(buff.ToString(), new Buff());
-        }   
+            yield return null;
+        }
+        
+        this.PillAlert.SetActive(false);
+
+        if (this.CurrentPillAction == 1) {
+            this.RandomPillAction();
+        } else {
+            this.Player.Die();
+        }        
+    }
+
+    private void RandomPillAction()
+    {
+        this.Decrement(E_BUFF.Pill);
+        this.Player.Revive();
+        int isHealed = UnityEngine.Random.Range(0, 2);
+        if (isHealed == 0) 
+        {
+            StartCoroutine(PillFailure());
+        }
+    }
+    
+    IEnumerator PillFailure()
+    {
+        yield return null;
     }
 }
