@@ -138,6 +138,8 @@ public class BuffController : MonoBehaviour
         } else {
             this.Player.Die();
         }        
+
+        this.CurrentPillAction = 0;
     }
 
     private void RandomPillAction()
