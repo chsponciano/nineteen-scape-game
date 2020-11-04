@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public LayerMask layer;
     public Animator anime;
 
+    private ContagionProgressController contagionProgressController;
     private CharacterController controller;
     private float jumpVelocity;
     private bool isMoving;
@@ -26,6 +27,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        this.contagionProgressController = FindObjectOfType<ContagionProgressController>();
         this.controller = GetComponent<CharacterController>();
         this.gameController = FindObjectOfType<GameController>();
         this.buffController = FindObjectOfType<BuffController>();
@@ -129,7 +131,11 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
-        if(Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, this.rayRadius, this.layer) && !this.gameController.playerDie)
+        if(
+            Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, this.rayRadius, this.layer)
+            && this.contagionProgressController.RandomizedInfection()
+            && !this.gameController.playerDie
+        )
         {
             hit.collider.gameObject.GetComponent<Adversaries>().Die();
             this.ValidatePlayerBuff();

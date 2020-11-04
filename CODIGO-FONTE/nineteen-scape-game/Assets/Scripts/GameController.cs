@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     public bool playerDie = false;
     public bool isStopped = false;
 
+    private CloudScore cloudScore;
     private Player player;
     private float time;
 
@@ -38,6 +39,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        this.cloudScore = FindObjectOfType<CloudScore>();
         this.player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         this.validateRandomObjectsProbabilities();
     }
@@ -56,6 +58,7 @@ public class GameController : MonoBehaviour
 
     public void CallGameOver()
     {
+        this.cloudScore.SaveScore((int)Mathf.Round(this.score));
         this.gameOverScoreText.text = string.Format("Atingido {0}m", Mathf.Round(this.score));
         this.gameOver.SetActive(true);
     }

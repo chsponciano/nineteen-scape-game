@@ -46,6 +46,7 @@ public class BuffController : MonoBehaviour
 
     /* variable of interaction with the buttons */
     public int CurrentPillAction = 0;
+    public bool IsWaitingForPillAction = false;
 
     public enum E_BUFF {Mask, Pill};
     private Dictionary<string, Buff> buffDictionary = new Dictionary<string, Buff>();
@@ -126,6 +127,7 @@ public class BuffController : MonoBehaviour
 
     IEnumerator WaitForPillAction()
     {
+        IsWaitingForPillAction = true;
         while(this.CurrentPillAction == 0)
         {
             yield return null;
@@ -140,6 +142,7 @@ public class BuffController : MonoBehaviour
         }        
 
         this.CurrentPillAction = 0;
+        IsWaitingForPillAction = false;
     }
 
     private void RandomPillAction()
