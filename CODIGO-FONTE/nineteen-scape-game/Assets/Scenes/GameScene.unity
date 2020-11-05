@@ -221,9 +221,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126ff6c558feb7646a14486355410f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InfectionFreeMessage: A MASCARA TE SALVOU
+  InfectionFreeMessage: EVITOU O CONTAGIO
   InfectionFreeMessageTime: 3
-  RandomizationInterval: 1
+  RandomizationInterval: 10
 --- !u!4 &42620894
 Transform:
   m_ObjectHideFlags: 0
@@ -3145,6 +3145,7 @@ MonoBehaviour:
   MaskUI: {fileID: 1721498932}
   Player: {fileID: 245410433}
   CurrentPillAction: 0
+  IsWaitingForPillAction: 0
 --- !u!4 &1923483478
 Transform:
   m_ObjectHideFlags: 0

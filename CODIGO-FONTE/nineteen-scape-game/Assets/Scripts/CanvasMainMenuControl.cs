@@ -75,14 +75,14 @@ public class CanvasMainMenuControl : MonoBehaviour
     private void populateRankList()
     {
         cloudScore.GetRanking(ranking => {
-            for(var i = 0; i < ranking.Count; i++)
+            for (var i = 0; i < ranking.Count; i++)
             {
                 var score = ranking[i];
                 var text = RankList[i];
 
                 text.text = "0" + (i + 1) + " - " + score.username + " - " + score.score;
             }
-            for(var i = ranking.Count; i < RankList.Count; i++)
+            for (var i = ranking.Count; i < RankList.Count; i++)
             {
                 RankList[i].text = "";
             }

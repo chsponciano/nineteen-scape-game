@@ -131,14 +131,13 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
-        if(
-            Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, this.rayRadius, this.layer)
-            && this.contagionProgressController.RandomizedInfection()
-            && !this.gameController.playerDie
-        )
+        if (Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, this.rayRadius, this.layer) && !this.gameController.playerDie)
         {
             hit.collider.gameObject.GetComponent<Adversaries>().Die();
-            this.ValidatePlayerBuff();
+            if (this.contagionProgressController.RandomizedInfection())
+            {
+                this.ValidatePlayerBuff();
+            }
         }
     }
 
