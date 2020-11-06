@@ -10,6 +10,10 @@ TagManager:
   - BackgroundContagionProgress
   - OverlayContagionProgress
   - PercentageContagionProgress
+  - AdversersaryWithoutCovid
+  - AlterMaskAntiCovid
+  - AlterChloroquine
+  - SaveByChloroquine
   layers:
   - Default
   - TransparentFX

@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public float rayRadius;
     public LayerMask layer;
     public Animator anime;
+    public bool Infected;
 
     private ContagionProgressController contagionProgressController;
     private CharacterController controller;
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(this.transform.position, this.transform.TransformDirection(Vector3.forward), out hit, this.rayRadius, this.layer) && !this.gameController.playerDie)
         {
             hit.collider.gameObject.GetComponent<Adversaries>().Die();
-            if (this.contagionProgressController.RandomizedInfection())
+            if (!this.Infected && this.contagionProgressController.RandomizedInfection())
             {
                 this.ValidatePlayerBuff();
             }

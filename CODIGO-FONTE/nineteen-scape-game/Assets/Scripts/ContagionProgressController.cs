@@ -9,8 +9,9 @@ public class ContagionProgressController : MonoBehaviour
 
     public string InfectionFreeMessage;
     public float InfectionFreeMessageTime; // Em segundos
-    public float RandomizationInterval; // Em segundos
+    public float RandomizationScoreInterval; // Em metros
     
+    private Alert alert;
     private RectTransform backgroundProgressRectTransform;
     private int currentPercentage;
     private RectTransform overlayProgressRectTransform;
@@ -18,8 +19,8 @@ public class ContagionProgressController : MonoBehaviour
     private GameController gameController;
     private Text percentageContagionProgress;
 
-    private float accDeltaRandomizationInterval;
     private float accDeltaInfectionFreeMessage;
+    private bool isAnimatingBar;
     private bool showingMessage;
     
     void Start()
@@ -28,38 +29,32 @@ public class ContagionProgressController : MonoBehaviour
         overlayProgressRectTransform = GameObject.FindGameObjectWithTag("OverlayContagionProgress").GetComponent<RectTransform>();
         percentageContagionProgress = GameObject.FindGameObjectWithTag("PercentageContagionProgress").GetComponent<Text>();
 
+        alert = FindObjectOfType<Alert>();
         gameController = FindObjectOfType<GameController>();
         buffController = FindObjectOfType<BuffController>();
-        accDeltaRandomizationInterval = RandomizationInterval;
+        
         accDeltaInfectionFreeMessage = 0f;
+        isAnimatingBar = false;
         showingMessage = false;
     }
 
     void Update()
     {
-        accDeltaRandomizationInterval += Time.deltaTime;
-        if (accDeltaRandomizationInterval >= RandomizationInterval && !gameController.playerDie && !buffController.IsWaitingForPillAction)
+        
+        if (Mathf.Round(gameController.score) % RandomizationScoreInterval == 0 && !gameController.playerDie && !buffController.IsWaitingForPillAction && !isAnimatingBar)
         {
-            accDeltaRandomizationInterval = 0f;
+            var oldPercentage = currentPercentage;
             currentPercentage = random(0, 100);
 
-            var height = overlayProgressRectTransform.rect.height;
-            var width = backgroundProgressRectTransform.rect.width / 100 * currentPercentage;
-
-            overlayProgressRectTransform.sizeDelta = new Vector2(width, height);
-
-            // var x = width / 2 - (backgroundProgressRectTransform.rect.width / 2); // Alinhado a esquerda
-            // var x = 0; // Alinhado no centro
-            var x = (backgroundProgressRectTransform.rect.width / 2) - width / 2; // Alinhado a direita
-            var y = backgroundProgressRectTransform.localPosition[1];
-            var z = backgroundProgressRectTransform.localPosition[2];
-            
-            overlayProgressRectTransform.localPosition = new Vector3(x, y, z);
-
-            if (!showingMessage)
+            if (oldPercentage < currentPercentage)
             {
-                percentageContagionProgress.text = currentPercentage.ToString();
+                StartCoroutine(AnimateContagionBar(oldPercentage, i => i < currentPercentage, i => i + 1));
             }
+            else
+            {
+                StartCoroutine(AnimateContagionBar(oldPercentage, i => i > currentPercentage, i => i - 1));
+            }
+
         }
 
         if (showingMessage)
@@ -74,13 +69,41 @@ public class ContagionProgressController : MonoBehaviour
         }
     }
 
+    IEnumerator AnimateContagionBar(float start, Func<float, bool> predicate, Func<float, float> incFunction)
+    {
+        isAnimatingBar = true;    
+        var height = overlayProgressRectTransform.rect.height;
+
+        for (var i = start; predicate(i); i = incFunction(i))
+        {
+            var width = backgroundProgressRectTransform.rect.width / 100 * i;
+
+            overlayProgressRectTransform.sizeDelta = new Vector2(width, height);
+
+            var x = (backgroundProgressRectTransform.rect.width / 2) - width / 2; // Alinhado a direita
+            var y = backgroundProgressRectTransform.localPosition[1];
+            var z = backgroundProgressRectTransform.localPosition[2];
+            
+            overlayProgressRectTransform.localPosition = new Vector3(x, y, z);
+
+            if (!showingMessage)
+            {
+                percentageContagionProgress.text = i.ToString();
+            }
+
+            yield return null;
+        }
+        isAnimatingBar = false;
+    }
+
     public bool RandomizedInfection()
     {
         var result = random(0, 100) <= this.currentPercentage;
         if (!result)
         {
             showingMessage = true;
-            percentageContagionProgress.text = InfectionFreeMessage;
+            // percentageContagionProgress.text = InfectionFreeMessage;
+            alert.Show("AdversersaryWithoutCovid");
         }
         return result;
     }

@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public float speedIncreaseRate;
     public float horizontalSpeedIncreaseRate;
 
+    public Alert alert;
     public List<GameObject> randomObjects = new List<GameObject>();
     public List<int> randomObjectsProbabilities = new List<int>();
     public GameObject gameOver;
@@ -48,10 +49,27 @@ public class GameController : MonoBehaviour
     {
         if(!this.playerDie && !this.isStopped)
         {
-            this.score += Time.deltaTime * 5f;
-            this.scoreText.text = Mathf.Round(this.score).ToString() + "m";
-            this.player.speed += this.speedIncreaseRate;
-            this.player.horizontalSpeed += this.horizontalSpeedIncreaseRate;
+            if (player.Infected)
+            {
+                this.player.jumpHeight = 0f;
+                if (player.speed <= 0)
+                {
+                    this.player.Die();
+                }
+                else 
+                {
+                    this.player.speed -= this.speedIncreaseRate * 5f;
+                    this.player.horizontalSpeed -= this.horizontalSpeedIncreaseRate * 5f;
+                    this.alert.Show("AlterChloroquine");
+                }
+            }
+            else
+            {
+                this.player.speed += this.speedIncreaseRate;
+                this.player.horizontalSpeed += this.horizontalSpeedIncreaseRate;
+                this.score += Time.deltaTime * 5f;
+                this.scoreText.text = Mathf.Round(this.score).ToString() + "m";
+            }
             this.createRandomObjectInScene();
         }
     }
