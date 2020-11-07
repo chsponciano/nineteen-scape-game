@@ -40,31 +40,33 @@ public class ContagionProgressController : MonoBehaviour
 
     void Update()
     {
-        
-        if (Mathf.Round(gameController.score) % RandomizationScoreInterval == 0 && !gameController.playerDie && !buffController.IsWaitingForPillAction && !isAnimatingBar)
+        if (!gameController.bossActivated)
         {
-            var oldPercentage = currentPercentage;
-            currentPercentage = random(0, 100);
-
-            if (oldPercentage < currentPercentage)
+            if (Mathf.Round(gameController.score) % RandomizationScoreInterval == 0 && !gameController.playerDie && !buffController.IsWaitingForPillAction && !isAnimatingBar)
             {
-                StartCoroutine(AnimateContagionBar(oldPercentage, i => i < currentPercentage, i => i + 1));
+                var oldPercentage = currentPercentage;
+                currentPercentage = random(0, 100);
+
+                if (oldPercentage < currentPercentage)
+                {
+                    StartCoroutine(AnimateContagionBar(oldPercentage, i => i < currentPercentage, i => i + 1));
+                }
+                else
+                {
+                    StartCoroutine(AnimateContagionBar(oldPercentage, i => i > currentPercentage, i => i - 1));
+                }
+
             }
-            else
-            {
-                StartCoroutine(AnimateContagionBar(oldPercentage, i => i > currentPercentage, i => i - 1));
-            }
 
-        }
-
-        if (showingMessage)
-        {
-            accDeltaInfectionFreeMessage += Time.deltaTime;
-            if (accDeltaInfectionFreeMessage >= InfectionFreeMessageTime)
+            if (showingMessage)
             {
-                showingMessage = false;
-                accDeltaInfectionFreeMessage = 0f;
-                percentageContagionProgress.text = currentPercentage.ToString();
+                accDeltaInfectionFreeMessage += Time.deltaTime;
+                if (accDeltaInfectionFreeMessage >= InfectionFreeMessageTime)
+                {
+                    showingMessage = false;
+                    accDeltaInfectionFreeMessage = 0f;
+                    percentageContagionProgress.text = currentPercentage.ToString();
+                }
             }
         }
     }
