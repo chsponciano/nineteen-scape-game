@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using System;
 
 public class BossController : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class BossController : MonoBehaviour
 
     void Start()
     {
-        this.normalize();
+        this.transform.position = MotionUtility.Normalize(this.gameObject);
         this.transform.Rotate(0f, 180f, 0f);
         this.gameController = FindObjectOfType<GameController>();
         this.player = FindObjectOfType<Player>();
@@ -27,7 +28,7 @@ public class BossController : MonoBehaviour
             
             if (Mathf.Round(this.transform.position.z - this.player.transform.position.z) % 50 == 0)
             {
-                this.getRandomX(Random.Range(0, 2));
+                this.RandomMovement();
             }
         }
         else
@@ -36,76 +37,38 @@ public class BossController : MonoBehaviour
         }
     }
 
-    private void normalize()
+    private void RandomMovement()
     {
-        float x = this.transform.position.x;
-        float currentX;
-
-        if (x < -3f)
-        {
-            currentX = -5f;
-        }
-        else if (x > 3f)
-        {
-            currentX = 5f;
-        }
-        else
-        {
-            currentX = 0f;
-        }
-
-        this.transform.position = new Vector3(currentX, this.transform.position.y, this.transform.position.z);
-    }
-
-    private void getRandomX(int position)
-    {
-        UnityEngine.Debug.Log(position);
+        var action = UnityEngine.Random.Range(0, 2);
 
         if (!isMoving)
         {
-            if (position == 0)
+            if (action == 0)
             {
-                StartCoroutine(LeftMove());
+                StartCoroutine(Move(this.transform.position.x, x => x > -5, x => this.transform.position.x >= x - 5f, -0.1f));
             }
-            else if (position == 1)
+            else if (action == 1)
             {
-                StartCoroutine(RightMove());
+                StartCoroutine(Move(this.transform.position.x, x => x < 5, x => this.transform.position.x <= x + 5f, 0.1f));
             }
         }
 
     }
 
-    IEnumerator LeftMove()
+    IEnumerator Move(float x, Func<float, bool> isValid, Func<float, bool> predicate, float rate)
     {
         isMoving = true;
-        float x = this.transform.position.x;
 
-        if (x > -5)
+        if (isValid(x))
         {
-            while (this.transform.position.x >= x - 5f)
+            while (predicate(x))
             {
-                this.transform.position += new Vector3(-0.1f, 0f, 0f);
+                this.transform.position += new Vector3(rate, 0f, 0f);
                 yield return null;
             }
         }
-        isMoving = false;
-        this.normalize();
-    }
 
-    IEnumerator RightMove()
-    {
-        isMoving = true;
-        float x = this.transform.position.x;
-
-        if (x < 5)
-        {
-            while (this.transform.position.x <= x + 5f)
-            {
-                this.transform.position += new Vector3(0.1f, 0f, 0f);
-                yield return null;
-            }
-        }
         isMoving = false;
-        this.normalize();
+        this.transform.position = MotionUtility.Normalize(this.gameObject);
     }
 }

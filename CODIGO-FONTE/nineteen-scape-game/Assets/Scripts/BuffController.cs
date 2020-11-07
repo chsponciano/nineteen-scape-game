@@ -156,10 +156,24 @@ public class BuffController : MonoBehaviour
         if (isHealed == 0) 
         {
             this.Player.Infected = true;
+            StartCoroutine(PillFailure());
         }
         else
         {
             this.alert.Show("SaveByChloroquine");
         }
+    }
+
+    IEnumerator PillFailure()
+    {
+        int i = 10;
+        while(i > 5)
+        {
+            i--;
+            yield return new WaitForSeconds(1);
+        }
+
+        this.Player.StopRunning();
+        this.Player.Die();
     }
 }

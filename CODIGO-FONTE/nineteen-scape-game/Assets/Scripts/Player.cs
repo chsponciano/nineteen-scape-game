@@ -193,7 +193,7 @@ public class Player : MonoBehaviour
         this.gameController.CallGameOver();
     }
 
-    private void StopRunning() 
+    public void StopRunning() 
     {
         this.gameController.isStopped = true;
         this.currentSpeed = this.speed;

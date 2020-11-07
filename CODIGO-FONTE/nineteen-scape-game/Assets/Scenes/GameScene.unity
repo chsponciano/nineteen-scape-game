@@ -153,7 +153,7 @@ MonoBehaviour:
   score: 0
   speedIncreaseRate: 0.005
   horizontalSpeedIncreaseRate: 0.0005
-  bossDisplayRate: 150
+  bossDisplayRate: 50
   alert: {fileID: 1868978374}
   randomObjects:
   - {fileID: 100000, guid: 2f8d00bf5057f624e949aef802595da9, type: 3}
@@ -3965,7 +3965,7 @@ PrefabInstance:
     - target: {fileID: 5520725884281187260, guid: 1d1a65e5dbf415b4ea8bb8c542431ca1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d1a65e5dbf415b4ea8bb8c542431ca1, type: 3}

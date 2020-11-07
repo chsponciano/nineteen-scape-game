@@ -56,11 +56,7 @@ public class GameController : MonoBehaviour
             if (player.Infected)
             {
                 this.player.jumpHeight = 0f;
-                if (player.speed <= 0)
-                {
-                    this.player.Die();
-                }
-                else 
+                if (player.speed > 0)
                 {
                     this.player.speed -= this.speedIncreaseRate * 5f;
                     this.player.horizontalSpeed -= this.horizontalSpeedIncreaseRate * 5f;
