@@ -14,7 +14,7 @@ public class Adversaries : MonoBehaviour
         this.transform.position += new Vector3(0f, 0.3f, 0f);
         this.gameController = FindObjectOfType<GameController>();
         this.player = FindObjectOfType<Player>();
-        // speed
+        // speeds
     }
 
     void Update()

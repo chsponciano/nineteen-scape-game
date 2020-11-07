@@ -14,6 +14,8 @@ TagManager:
   - AlterMaskAntiCovid
   - AlterChloroquine
   - SaveByChloroquine
+  - Boss
+  - CallBoss
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - 
   - obstacle
   - adversaries
-  - 
+  - boss
   - 
   - 
   - 
