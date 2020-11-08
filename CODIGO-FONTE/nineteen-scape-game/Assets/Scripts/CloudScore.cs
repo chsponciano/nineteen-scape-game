@@ -12,10 +12,39 @@ using System.Runtime.Serialization;
 public class CloudScore : MonoBehaviour
 {
 
-    public static string Username { get; set; }
+    private static string _username;
+    public static string Username { 
+        get {
+            if (string.IsNullOrWhiteSpace(_username))
+            {
+                return PlayerPrefs.GetString("username", _username);
+            }
+            return _username;
+        }
+        set {
+            _username = value;
+            PlayerPrefs.SetString("username", _username);
+        }
+    }
 
     private static readonly HttpClient client = new HttpClient();
     private static readonly string resource = "https://nineteenscape.firebaseio.com/scores.json";
+
+    private static CloudScore _instance;
+    public static CloudScore Instance { get { return _instance; } }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            _instance = this;
+        }
+        else if (Instance != this)
+        {
+            Destroy (gameObject);
+        }
+    }
 
     public async void SaveScore(int score)
     {
