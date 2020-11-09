@@ -94,7 +94,7 @@ public class GameController : MonoBehaviour
 
     private void createRandomObjectInScene()
     {
-        if(this.time > 10)
+        if(this.time > 50)
         {
             GameObject newObject = this.getRandomObject();
             Instantiate(newObject, this.getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);

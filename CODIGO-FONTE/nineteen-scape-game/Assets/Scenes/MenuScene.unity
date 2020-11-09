@@ -2977,7 +2977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de1d0b57673cc649afbb309b06c4965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UsernameInput: {fileID: 880896188}
+  UsernameInput: {fileID: 825979539}
   RankList:
   - {fileID: 424687269}
   - {fileID: 1792389600}

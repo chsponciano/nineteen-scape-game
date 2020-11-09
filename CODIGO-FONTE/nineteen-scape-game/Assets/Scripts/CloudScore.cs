@@ -33,16 +33,15 @@ public class CloudScore : MonoBehaviour
     private static CloudScore _instance;
     public static CloudScore Instance { get { return _instance; } }
 
-    void Awake()
+     private void Awake()
     {
-        if (Instance == null)
+        if (_instance != null && _instance != this)
         {
-            DontDestroyOnLoad(gameObject);
+            Destroy(this.gameObject);
+        } 
+        else 
+        {
             _instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy (gameObject);
         }
     }
 
