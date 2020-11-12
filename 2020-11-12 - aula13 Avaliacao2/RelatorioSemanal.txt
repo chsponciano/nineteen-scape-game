@@ -1,11 +1,14 @@
 Relatório semanal
 
 Relatar O QUE FOI FEITO:
--
--
--
 
-Relatar QUEM FOI O RESPONSÁVEL
--
--
--
+Em chamada conjunta:
+- bulbassauro, chefão implementado
+- gerada e rodada a versão em realidade aumentada
+
+Vinícius:
+- apelido com ranking salvando no firebase
+- apelido salvando localmente, precisando digitar só na primeira vez
+
+Carlos:
+- refatorado a parte de movimentação
