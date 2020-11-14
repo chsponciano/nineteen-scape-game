@@ -7,25 +7,16 @@ using UnityEngine.UI;
 
 public class CanvasMainMenuControl : MonoBehaviour
 {
-    private GameObject CanvasMainMenu;
-    private GameObject CanvasInformation;
-    private GameObject CanvasUsername;
-    private GameObject CanvasRanking;
-
-    private CloudScore cloudScore;
-
+    public GameObject CanvasMainMenu;
+    public GameObject CanvasInformation;
+    public GameObject CanvasUsername;
+    public GameObject CanvasRanking;
+    public CloudScore cloudScore;
     public InputField UsernameInput;
     public List<Text> RankList;
 
     void Start()
     {
-        CanvasMainMenu = GameObject.Find("CanvasMainMenu").gameObject;
-        CanvasUsername = GameObject.Find("CanvasUsername").gameObject;
-        CanvasRanking = GameObject.Find("CanvasRanking").gameObject;
-        CanvasInformation = GameObject.Find("CanvasInformation").gameObject;
-        
-        cloudScore = FindObjectOfType<CloudScore>();
-
         if (string.IsNullOrWhiteSpace(CloudScore.Username))
         {
             CanvasUsername.SetActive(true);
@@ -47,7 +38,7 @@ public class CanvasMainMenuControl : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("GameScene");
     }
 
     public void InformationButton()

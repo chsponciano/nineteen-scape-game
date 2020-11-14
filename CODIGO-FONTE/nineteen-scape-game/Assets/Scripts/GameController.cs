@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public float score;
     public float speedIncreaseRate;
     public float horizontalSpeedIncreaseRate;
+    public float timeInsertObjectsScene;
     public int bossDisplayRate;
 
     public Alert alert;
@@ -94,7 +95,7 @@ public class GameController : MonoBehaviour
 
     private void createRandomObjectInScene()
     {
-        if(this.time > 50)
+        if(this.time > this.timeInsertObjectsScene)
         {
             GameObject newObject = this.getRandomObject();
             Instantiate(newObject, this.getRandomVector3(Random.Range(1, 4), newObject.transform.position.y), newObject.transform.rotation);

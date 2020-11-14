@@ -153,6 +153,7 @@ MonoBehaviour:
   score: 0
   speedIncreaseRate: 0.005
   horizontalSpeedIncreaseRate: 0.0005
+  timeInsertObjectsScene: 10
   bossDisplayRate: 50
   alert: {fileID: 1868978374}
   randomObjects:
@@ -227,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InfectionFreeMessage: PEDESTRE SAUDAVEL
   InfectionFreeMessageTime: 3
-  RandomizationScoreInterval: 50
+  RandomizationScoreInterval: 45
 --- !u!4 &42620894
 Transform:
   m_ObjectHideFlags: 0
@@ -3965,7 +3966,7 @@ PrefabInstance:
     - target: {fileID: 5520725884281187260, guid: 1d1a65e5dbf415b4ea8bb8c542431ca1,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d1a65e5dbf415b4ea8bb8c542431ca1, type: 3}
