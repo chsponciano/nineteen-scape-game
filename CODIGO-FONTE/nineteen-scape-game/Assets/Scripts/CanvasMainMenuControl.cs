@@ -14,6 +14,7 @@ public class CanvasMainMenuControl : MonoBehaviour
     public CloudScore cloudScore;
     public InputField UsernameInput;
     public List<Text> RankList;
+    public Animator animator;
 
     void Start()
     {
@@ -38,7 +39,8 @@ public class CanvasMainMenuControl : MonoBehaviour
 
     public void PlayButton()
     {
-        SceneManager.LoadScene("GameScene");
+        animator.SetTrigger("game");
+        // SceneManager.LoadScene("GameScene");
     }
 
     public void InformationButton()
