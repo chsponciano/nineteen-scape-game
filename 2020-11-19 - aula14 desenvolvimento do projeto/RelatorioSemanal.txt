@@ -1,11 +1,17 @@
 Relatório semanal
 
 Relatar O QUE FOI FEITO:
--
--
--
 
-Relatar QUEM FOI O RESPONSÁVEL
--
--
--
+Carlos
+- Formatação menu para VR
+- Comando de voz implementado
+- Animações no menu inicial
+- Criação do personagem de criança
+
+Vinicius
+- Controle do cursor nos menus para VR
+- Animações no menu inicial
+- Criação do personagem de criança
+
+Giulio
+- Suavização nas trocas de tela "fade in"
