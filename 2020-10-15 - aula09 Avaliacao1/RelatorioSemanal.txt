@@ -1,6 +1,0 @@
-Relatório semanal
-
-Relatar O QUE FOI FEITO:
-- Menu de início do jogo - Vinícius
-- Resolvido o bug do algoritmo de corrida - Carlos Ponciano
-- Atualizados os personagens utilizados - Giulio
