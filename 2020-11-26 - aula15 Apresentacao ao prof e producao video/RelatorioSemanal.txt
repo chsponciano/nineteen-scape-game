@@ -1,11 +1,15 @@
 Relatório semanal
 
 Relatar O QUE FOI FEITO:
--
--
--
 
-Relatar QUEM FOI O RESPONSÁVEL
--
--
--
+Giulio, Carlos
+- Edição do vídeo
+
+Vinícios
+- Gravações de jogo
+
+Vídeo de apresentação: https://www.youtube.com/watch?v=YtNqshOYVUk&feature=youtu.be
+
+Jogo
+Versão Windows: https://github.com/chsponciano/nineteen-scape-game/tree/build_windows
+Versão Android Cardboard (VR): https://github.com/chsponciano/nineteen-scape-game/tree/build_vr
