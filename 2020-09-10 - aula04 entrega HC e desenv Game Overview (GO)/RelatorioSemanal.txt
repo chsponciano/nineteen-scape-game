@@ -1,11 +1,2 @@
-Relatório semanal
-
-Relatar O QUE FOI FEITO:
--
--
--
-
-Relatar QUEM FOI O RESPONSÁVEL
--
--
--
+Apresentação do HC
+Desenvolvimento do Game Overview 
